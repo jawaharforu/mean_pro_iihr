@@ -20,7 +20,7 @@ mongoose.connection.on('error', (err) => {
 
 const app = express();
 
-const users = require('./routes/users');
+const api = require('./routes/api');
 
 const port = 3000;
  
@@ -33,7 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Body parser middleware
 app.use(bodyParser.json());
 
-app.use('/users', users);
+app.use('/api', api);
 
 app.get('/', (req, res) => {
     res.send("just for checking");
