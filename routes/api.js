@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/database');
 
 const Product = require('../modules/product');
+const Productdetail = require('../modules/productdetail');
 
 // Login routing
 router.get('/login', (req, res, next) => {
@@ -65,5 +66,62 @@ router.put('/product/:productid', (req, res, next) => {
     });
 });
 //<-- Product part end --------------------------------------------------------->
+//<-- Productdetails part start --------------------------------------------------------->
+// Add new product details
+router.post('/productdetail', (req, res, next) => {
+    let newProductdetail = new Productdetail({
+        productid: req.body.productid,
+        make: req.body.make,
+        model: req.body.model,
+        nameofsupplier: req.body.nameofsupplier,
+        date: req.body.date,
+        condition: req.body.condition,
+        remark: req.body.remark
+    });
+    //res.json(newProductdetail);
+    Productdetail.addProductdetail(newProductdetail, (err, productdetail) => {
+        if(err){
+            res.json({success: false, msg: 'Failed to add Product'});
+        }else{
+            res.json({success: true, msg: 'Product Add', data: productdetail});
+        }
+    }); 
+});
+// get product details based on productid
+router.get('/productdetails/:productid', (req, res, next) => {
+    Productdetail.getProductdetailByProductid(req.params.productid, (err, productdetail) => {
+        res.json({success: true, data: productdetail});
+    });
+});
+// Delete product
+router.delete('/productdetail/:productdetailid', (req, res, next) => {
+    Productdetail.deleteProductdetail(req.params.productdetailid, (err, result) => {
+        if(err){
+            res.json({success: false, msg: 'Failed to delete Product detail'});
+        }else{
+            res.json({success: true, msg: 'Product detail deleted successfully'});
+        }
+    });
+});
+// Update product
+router.put('/productdetail/:productdetailid', (req, res, next) => {
+    let updatedProductdetail = {
+        productid: req.body.productid,
+        make: req.body.make,
+        model: req.body.model,
+        nameofsupplier: req.body.nameofsupplier,
+        date: req.body.date,
+        condition: req.body.condition,
+        remark: req.body.remark
+    }; 
+    Productdetail.updateProductdetail(req.params.productdetailid, updatedProductdetail, (err, result) => {
+        if(err){
+            res.json({success: false, msg: 'Failed to Update Product detail'});
+        }else{
+            res.json({success: true, msg: 'Product detail Updated successfully'});
+        }
+    });
+});
+//<-- Productdetails part end --------------------------------------------------------->
 
 module.exports = router;
