@@ -6,6 +6,7 @@ const config = require('../config/database');
 
 const Product = require('../modules/product');
 const Productdetail = require('../modules/productdetail');
+const Booking = require('../modules/booking');
 
 // Login routing
 router.get('/login', (req, res, next) => {
@@ -48,7 +49,11 @@ router.delete('/product/:productid', (req, res, next) => {
         if(err){
             res.json({success: false, msg: 'Failed to delete Product'});
         }else{
-            res.json({success: true, msg: 'Product deleted successfully'});
+            Product.find(function(err, product){
+                if(err) throw err;
+                res.json({success: true, msg: 'Product deleted successfully', data: product});
+            });
+            
         }
     });
 });
@@ -123,5 +128,59 @@ router.put('/productdetail/:productdetailid', (req, res, next) => {
     });
 });
 //<-- Productdetails part end --------------------------------------------------------->
-
+//<-- Bookings part start --------------------------------------------------------->
+// Add new Booking
+router.post('/booking', (req, res, next) => {
+    let newBooking = new Booking({
+        productdetailid: req.body.productdetailid,
+        fromdate: req.body.fromdate,
+        todate: req.body.todate,
+        location: req.body.location,
+        status: req.body.status,
+        uid: req.body.uid
+    });
+    Booking.addBooking(newBooking, (err, booking) => {
+        if(err){
+            res.json({success: false, msg: 'Failed to add Booking'});
+        }else{
+            res.json({success: true, msg: 'Booking Add', data: booking});
+        }
+    }); 
+});
+// get booking based on status
+router.get('/bookings/:status', (req, res, next) => {
+    Booking.getBookingByStatus(req.params.status, (err, booking) => {
+        res.json({success: true, data: booking});
+    });
+});
+// Delete booking
+router.delete('/booking/:bookingid', (req, res, next) => {
+    Booking.deleteBooking(req.params.bookingid, (err, result) => {
+        if(err){
+            res.json({success: false, msg: 'Failed to delete Booking'});
+        }else{
+            res.json({success: true, msg: 'Booking deleted successfully'});
+        }
+    });
+});
+// Update booking
+router.put('/booking/:bookingid', (req, res, next) => {
+    let updatedBooking = {
+        productdetailid: req.body.productdetailid,
+        fromdate: req.body.fromdate,
+        todate: req.body.todate,
+        location: req.body.location,
+        status: req.body.status,
+        uid: req.body.uid,
+        updatedon: req.body.updatedon
+    }; 
+    Booking.updateProductdetail(req.params.bookingid, updatedBooking, (err, result) => {
+        if(err){
+            res.json({success: false, msg: 'Failed to Update Booking'});
+        }else{
+            res.json({success: true, msg: 'Booking Updated successfully'});
+        }
+    });
+});
+//<-- Booking part end --------------------------------------------------------->
 module.exports = router;
