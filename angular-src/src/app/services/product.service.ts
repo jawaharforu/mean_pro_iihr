@@ -28,4 +28,17 @@ export class ProductService {
     return this.http.delete(this.link+'api/product/'+productid, {headers: headers})
     .map(res => res.json());
   }
+  //Product Detail
+  addProductDetail(productdetail){
+    let headers = new Headers();
+    headers.append('Content-type','application/json');
+    return this.http.post(this.link+'api/productdetail', productdetail, {headers: headers})
+    .map(res => res.json());
+  }
+  getProductDetail(){
+    let headers = new Headers();
+    headers.append('Content-type','application/json');
+    return this.http.get(this.link+'api/productdetails', {headers: headers})
+    .map(res => res.json());
+  }
 }

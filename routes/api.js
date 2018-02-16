@@ -76,8 +76,10 @@ router.put('/product/:productid', (req, res, next) => {
 router.post('/productdetail', (req, res, next) => {
     let newProductdetail = new Productdetail({
         productid: req.body.productid,
+        name: req.body.name,
         make: req.body.make,
         model: req.body.model,
+        registnum: req.body.registnum,
         nameofsupplier: req.body.nameofsupplier,
         date: req.body.date,
         condition: req.body.condition,
@@ -91,6 +93,13 @@ router.post('/productdetail', (req, res, next) => {
             res.json({success: true, msg: 'Product Add', data: productdetail});
         }
     }); 
+});
+// get all product details
+router.get('/productdetails', (req, res, next) => {
+    Productdetail.getAllProductdetails((err, productdetail) => {
+        if(err) throw err;
+        res.json({success: true, data: productdetail});
+    });
 });
 // get product details based on productid
 router.get('/productdetails/:productid', (req, res, next) => {
@@ -112,8 +121,10 @@ router.delete('/productdetail/:productdetailid', (req, res, next) => {
 router.put('/productdetail/:productdetailid', (req, res, next) => {
     let updatedProductdetail = {
         productid: req.body.productid,
+        name: req.body.name,
         make: req.body.make,
         model: req.body.model,
+        registnum: req.body.registnum,
         nameofsupplier: req.body.nameofsupplier,
         date: req.body.date,
         condition: req.body.condition,

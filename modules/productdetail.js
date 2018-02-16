@@ -7,10 +7,16 @@ const ProductdetailSchema = mongoose.Schema({
         ref: 'Product',
         required: [true,'No product id found']
     },
+    name: {
+        type: String
+    },
     make: {
         type: String
     },
     model: {
+        type: String
+    },
+    registnum: {
         type: String
     },
     nameofsupplier: {
@@ -52,3 +58,16 @@ module.exports.deleteProductdetail = function(productdetailid, callback){
 module.exports.updateProductdetail = function(productdetailid, updatedProduct, callback){
     Productdetail.update({_id: productdetailid},updatedProduct, callback);
 } ;
+
+module.exports.getAllProductdetails = function(callback){
+    Productdetail.aggregate([
+        { $lookup:
+           {
+             from: 'products',
+             localField: 'productid',
+             foreignField: '_id',
+             as: 'productname'
+           }
+         }
+        ],callback);
+};
