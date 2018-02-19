@@ -40,15 +40,32 @@ module.exports.addProductdetail = function(newProductdetail, callback){
     newProductdetail.save(callback);
 };
 
-module.exports.getProductdetailById = function(productdetailid, callback){
+module.exports.getProductdetailById = function(productid, callback){
     Productdetail.findById(productid, callback);
 };
 
 module.exports.getProductdetailByProductid = function(productid, callback){
+    /*
     const query = {
         productid: productid
     }
     Productdetail.find(query, callback);
+    */
+    Productdetail.aggregate([
+        { $match:
+            {
+                'productid': mongoose.Schema.Types.ObjectId(productid)
+            }
+        },
+        { $lookup:
+           {
+             from: 'products',
+             localField: 'productid',
+             foreignField: '_id',
+             as: 'productname'
+           }
+         }
+        ],callback);
 }; 
 
 module.exports.deleteProductdetail = function(productdetailid, callback){

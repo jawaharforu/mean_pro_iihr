@@ -101,6 +101,12 @@ router.get('/productdetails', (req, res, next) => {
         res.json({success: true, data: productdetail});
     });
 });
+// get product details based on productdetailid
+router.get('/productdetail/:productdetailid', (req, res, next) => {
+    Productdetail.getProductdetailById(req.params.productdetailid, (err, productdetail) => {
+        res.json({success: true, data: productdetail});
+    });
+});
 // get product details based on productid
 router.get('/productdetails/:productid', (req, res, next) => {
     Productdetail.getProductdetailByProductid(req.params.productid, (err, productdetail) => {

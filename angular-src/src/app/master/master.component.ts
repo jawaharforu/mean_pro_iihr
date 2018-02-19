@@ -8,9 +8,11 @@ import { ProductService } from '../services/product.service';
   styleUrls: ['./master.component.scss']
 })
 export class MasterComponent implements OnInit {
+  btnname: String = 'Add';
+  // product
   productname : String;
   productlist : any;
-  //product detail variable
+  // product detail variable
   productid : String;
   make : String;
   model : String;

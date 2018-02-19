@@ -12,13 +12,13 @@ export class ProductService {
 
   getProduct(){
     let headers = new Headers();
-    headers.append('Content-type','application/json');
-    return this.http.get(this.link+'api/products', {headers: headers})
+    headers.append('Content-type', 'application/json');
+    return this.http.get(this.link + 'api/products', {headers: headers})
     .map(res => res.json());
   }
   addProduct(product){
     let headers = new Headers();
-    headers.append('Content-type','application/json');
+    headers.append('Content-type', 'application/json');
     return this.http.post(this.link+'api/product', product, {headers: headers})
     .map(res => res.json());
   }
@@ -28,7 +28,7 @@ export class ProductService {
     return this.http.delete(this.link+'api/product/'+productid, {headers: headers})
     .map(res => res.json());
   }
-  //Product Detail
+  // Product Detail
   addProductDetail(productdetail){
     let headers = new Headers();
     headers.append('Content-type','application/json');

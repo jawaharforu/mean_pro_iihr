@@ -11,7 +11,7 @@
                         <label for="inputProsuct">Product Name</label>
                         <input type="email" class="form-control" id="inputProsuct" placeholder="Product" [(ngModel)]="productname" name="productname">
                     </div>
-                    <button type="submit" class="btn btn-primary">Add</button>
+                    <button type="submit" class="btn btn-primary">{{btnname}}</button>
                 </form>
             </div>
           </div>
@@ -113,7 +113,40 @@
     </ngb-tab>
     <ngb-tab title="Product List">
       <ng-template ngbTabContent>
-
+        <div class="row">
+          <div class="col-md-12">
+              <h3>Product List</h3>
+              <table class="table table-dark">
+                <thead>
+                  <tr>
+                    <th>Sl.No.</th>
+                    <th>Product</th>
+                    <th>Name/Make/Model</th>
+                    <th>Reg.No.</th>
+                    <th>Supplier Name</th>
+                    <th>Status</th>
+                    <th>Remarks</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let productdetail of productdetaillist; let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{productdetail.productname[0].name}}</td>
+                    <td>{{productdetail.name}}/{{productdetail.make}}/{{productdetail.model}}</td>
+                    <td>{{productdetail.registnum}}</td>
+                    <td>{{productdetail.nameofsupplier}}</td>
+                    <td>{{productdetail.condition}}</td>
+                    <td>{{productdetail.remark}}</td>
+                    <td>
+                        <button><i class="fa fa-edit fa-lg"></i></button>&nbsp;
+                        <button (click)="productDelete(product._id)"><i class="fa fa-trash fa-lg"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+        </div>
       </ng-template>
     </ngb-tab>
   </ngb-tabset>
