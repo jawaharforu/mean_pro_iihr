@@ -16,7 +16,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ValidateService } from './services/validate.service';
 import { FlashMessagesModule } from 'angular2-flash-messages';
 import { ProductService } from './services/product.service';
+import { ProductdetailService } from './services/productdetail.service';
 import { HttpModule } from '@angular/http';
+import { ProductnameComponent } from './productname/productname.component';
+import { ProductdetailComponent } from './productdetail/productdetail.component';
+import { ProductlistComponent } from './productlist/productlist.component';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ProductDetailListComponent } from './product-detail-list/product-detail-list.component';
+import { BookingService } from './services/booking.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +33,11 @@ import { HttpModule } from '@angular/http';
     BookingComponent,
     UserBookingComponent,
     NavBarComponent,
-    SideBarComponent
+    SideBarComponent,
+    ProductnameComponent,
+    ProductdetailComponent,
+    ProductlistComponent,
+    ProductDetailListComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +47,7 @@ import { HttpModule } from '@angular/http';
     FlashMessagesModule.forRoot(),
     HttpModule
   ],
-  providers: [ValidateService, ProductService],
+  providers: [ValidateService, ProductService, ProductdetailService, NgbActiveModal, BookingService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

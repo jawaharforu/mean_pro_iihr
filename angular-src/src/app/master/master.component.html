@@ -1,152 +1,18 @@
 <ngb-tabset>
     <ngb-tab title="Product">
       <ng-template ngbTabContent>
-          <div class="row">
-            <div class="col-md-12">
-                <form (submit)="onProductAdd()">
-                    <div class="form-group">
-                      <h3>Add Product</h3>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputProsuct">Product Name</label>
-                        <input type="email" class="form-control" id="inputProsuct" placeholder="Product" [(ngModel)]="productname" name="productname">
-                    </div>
-                    <button type="submit" class="btn btn-primary">{{btnname}}</button>
-                </form>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-                <h3>Product List</h3>
-                <table class="table table-dark">
-                  <thead>
-                    <tr>
-                      <th>Sl.No.</th>
-                      <th>Product</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let product of productlist; let i = index">
-                      <td>{{i+1}}</td>
-                      <td>{{product.name}}</td>
-                      <td>
-                          <button><i class="fa fa-edit fa-lg"></i></button>&nbsp;
-                          <button (click)="productDelete(product._id)"><i class="fa fa-trash fa-lg"></i></button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-            </div>
-          </div>
+          <app-productname></app-productname>
       </ng-template>
     </ngb-tab>
     <ngb-tab>
       <ng-template ngbTabTitle>Product Detail</ng-template>
       <ng-template ngbTabContent>
-        <div class="row">
-          <div class="col-md-12">
-            <form (submit)="onProductDetailAdd()">
-              <div class="form-group">
-                <h3>Add Product</h3>
-              </div>
-              <div class="form-group">
-                <label for="inputProsuct">Product<span style="color:red">*</span></label>
-                <select [(ngModel)]="productid" name="productid" class="form-control">
-                  <option value="">-Select Product-</option>
-                  <option *ngFor="let product of productlist" value="{{product._id}}">{{product.name}}</option>
-                </select>
-              </div>
-              <div class="form-group">
-                  <label for="inputAddress">Name<span style="color:red">*</span></label>
-                  <input type="text" [(ngModel)]="productdetailname" name="productdetailname" class="form-control" id="productdetailname" placeholder="Name">
-                </div>
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="inputEmail4">Make</label>
-                  <input type="text" [(ngModel)]="make" name="make" class="form-control" id="inputmake" placeholder="Make">
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="inputPassword4">Model</label>
-                  <input type="text" [(ngModel)]="model" name="model" class="form-control" id="inputmodel" placeholder="Model">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="inputAddress">Registration No.</label>
-                <input type="text" [(ngModel)]="registnum" name="registnum" class="form-control" id="inputregno" placeholder="Registration No.">
-              </div>
-              <div class="form-group">
-                <label for="inputAddress">Name of Supplier</label>
-                <input type="text" [(ngModel)]="nameofsupplier" name="nameofsupplier" class="form-control" id="inputsublier" placeholder="Name of Supplier">
-              </div>
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="inputAddress">Registration Date</label>
-                  <div class="input-group">
-                    <input class="form-control" placeholder="yyyy-mm-dd"
-                          name="fuldate" [(ngModel)]="fuldate" ngbDatepicker #d="ngbDatepicker">
-                    <div class="input-group-append">
-                      <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
-                        <i class="fa fa-calendar fa-lg" style="cursor: pointer;"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="inputProsuct">Condition<span style="color:red">*</span></label>
-                <select class="form-control" [(ngModel)]="condition" name="condition">
-                  <option value="">-Select Condition-</option>
-                  <option value="working">Working</option>
-                  <option value="notworking">Not Working</option>
-                </select>
-              </div>
-              <div class="form-group">
-                  <label for="inputProsuct">Remarks</label>
-                  <textarea class="form-control" [(ngModel)]="remark" name="remark"></textarea>
-              </div>
-              <button type="submit" class="btn btn-primary">Add Product Detail</button>
-            </form>
-          </div>
-        </div>
+        <app-productdetail></app-productdetail>
       </ng-template>
     </ngb-tab>
     <ngb-tab title="Product List">
       <ng-template ngbTabContent>
-        <div class="row">
-          <div class="col-md-12">
-              <h3>Product List</h3>
-              <table class="table table-dark">
-                <thead>
-                  <tr>
-                    <th>Sl.No.</th>
-                    <th>Product</th>
-                    <th>Name/Make/Model</th>
-                    <th>Reg.No.</th>
-                    <th>Supplier Name</th>
-                    <th>Status</th>
-                    <th>Remarks</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let productdetail of productdetaillist; let i = index">
-                    <td>{{i+1}}</td>
-                    <td>{{productdetail.productname[0].name}}</td>
-                    <td>{{productdetail.name}}/{{productdetail.make}}/{{productdetail.model}}</td>
-                    <td>{{productdetail.registnum}}</td>
-                    <td>{{productdetail.nameofsupplier}}</td>
-                    <td>{{productdetail.condition}}</td>
-                    <td>{{productdetail.remark}}</td>
-                    <td>
-                        <button><i class="fa fa-edit fa-lg"></i></button>&nbsp;
-                        <button (click)="productDelete(product._id)"><i class="fa fa-trash fa-lg"></i></button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-          </div>
-        </div>
+        <app-productlist></app-productlist>
       </ng-template>
     </ngb-tab>
   </ngb-tabset>

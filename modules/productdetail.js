@@ -44,6 +44,24 @@ module.exports.getProductdetailById = function(productid, callback){
     Productdetail.findById(productid, callback);
 };
 
+module.exports.getProductdetailAndProductById = function(productdetailid, callback){
+   Productdetail.aggregate([
+       { $match:
+            {
+                '_id': mongoose.Types.ObjectId(productdetailid)
+            }
+       },
+       { $lookup:
+        {
+          from: 'products',
+          localField: 'productid',
+          foreignField: '_id',
+          as: 'productname'
+        }
+      }
+   ], callback);
+}
+
 module.exports.getProductdetailByProductid = function(productid, callback){
     /*
     const query = {
@@ -54,7 +72,7 @@ module.exports.getProductdetailByProductid = function(productid, callback){
     Productdetail.aggregate([
         { $match:
             {
-                'productid': mongoose.Schema.Types.ObjectId(productid)
+                'productid': mongoose.Types.ObjectId(productid)
             }
         },
         { $lookup:
@@ -82,9 +100,30 @@ module.exports.getAllProductdetails = function(callback){
            {
              from: 'products',
              localField: 'productid',
-             foreignField: '_id',
+             foreignField: '_id', 
              as: 'productname'
            }
          }
         ],callback);
 };
+
+module.exports.getProductBoolingList = function(callback){
+    Productdetail.aggregate([
+        { $lookup:
+            {
+              from: 'products',
+              localField: 'productid',
+              foreignField: '_id', 
+              as: 'productname'
+            }
+        },
+        { $lookup:
+           {
+             from: 'bookings',
+             localField: '_id',
+             foreignField: 'productdetailid', 
+             as: 'bookedlist'
+           }
+         }
+        ],callback);
+} ;

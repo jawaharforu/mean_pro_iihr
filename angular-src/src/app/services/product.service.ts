@@ -4,41 +4,40 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class ProductService {
-  link : String = 'http://localhost:3000/';
-  product : any;
+  link: String = 'http://localhost:3000/';
+  product: any;
   constructor(
-    private http:Http
+    private http: Http
   ) { }
 
-  getProduct(){
-    let headers = new Headers();
+  getProduct() {
+    const headers = new Headers();
     headers.append('Content-type', 'application/json');
     return this.http.get(this.link + 'api/products', {headers: headers})
     .map(res => res.json());
   }
-  addProduct(product){
-    let headers = new Headers();
+  getProductById(productid) {
+    const headers = new Headers();
     headers.append('Content-type', 'application/json');
-    return this.http.post(this.link+'api/product', product, {headers: headers})
+    return this.http.get(this.link + 'api/product/' + productid, {headers: headers})
     .map(res => res.json());
   }
-  deleteProduct(productid){
-    let headers = new Headers();
-    headers.append('Content-type','application/json');
-    return this.http.delete(this.link+'api/product/'+productid, {headers: headers})
+  addProduct(product) {
+    const headers = new Headers();
+    headers.append('Content-type', 'application/json');
+    return this.http.post(this.link + 'api/product', product, {headers: headers})
     .map(res => res.json());
   }
-  // Product Detail
-  addProductDetail(productdetail){
-    let headers = new Headers();
-    headers.append('Content-type','application/json');
-    return this.http.post(this.link+'api/productdetail', productdetail, {headers: headers})
+  updateProduct(productid, product) {
+    const headers = new Headers();
+    headers.append('Content-type', 'application/json');
+    return this.http.put(this.link + 'api/product/' + productid, product, {headers: headers})
     .map(res => res.json());
   }
-  getProductDetail(){
-    let headers = new Headers();
-    headers.append('Content-type','application/json');
-    return this.http.get(this.link+'api/productdetails', {headers: headers})
+  deleteProduct(productid) {
+    const headers = new Headers();
+    headers.append('Content-type', 'application/json');
+    return this.http.delete(this.link + 'api/product/' + productid, {headers: headers})
     .map(res => res.json());
   }
 }

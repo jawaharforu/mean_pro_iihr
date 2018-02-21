@@ -1,3 +1,82 @@
-<p>
-  booking works!
-</p>
+<div class="row">
+  <div class="col-md-12">
+      <h3>Product List</h3>
+      <table class="table table-dark">
+        <thead>
+          <tr>
+            <th>Sl.No.</th>
+            <th>Product</th>
+            <th>Name/Make/Model</th>
+            <th>Status</th>
+            <th>Remarks</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let productdetail of productbookinglist; let i = index">
+            <td>{{i+1}}</td>
+            <td>{{productdetail.productname[0].name}}</td>
+            <td>{{productdetail.name}}/{{productdetail.make}}/{{productdetail.model}}</td>
+            <td>status</td>
+            <td>{{productdetail.remark}}</td>
+            <td>
+                <button (click)="open(productbook,productdetail._id)" class="btn btn-primary"><i class="fa fa-shopping-bag fa-lg"></i>&nbsp;BOOK</button>&nbsp;
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+</div>
+<ng-template #productbook let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Edit Product Detail</h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form (submit)="bookTheItem();">
+      <input type="hidden" [(ngModel)]="productdetailid" name="productdetailid" />
+      <div class="form-group">
+        <label for="exampleFormControlTextarea1">Product</label>
+        <span>{{productname}}</span>
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlTextarea1">Product Detail</label>
+        <span>{{productdetail}}</span>
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlTextarea1">From Date</label>
+        <div class="input-group">
+          <input class="form-control" placeholder="yyyy-mm-dd"
+                 name="fromdt" [(ngModel)]="fromdt" ngbDatepicker #fd="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" (click)="fd.toggle()" type="button">
+                <i class="fa fa-calendar fa-lg" style="cursor: pointer;"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlTextarea1">To Date</label>
+        <div class="input-group">
+          <input class="form-control" placeholder="yyyy-mm-dd"
+                 name="todt" [(ngModel)]="todt" ngbDatepicker #td="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" (click)="td.toggle()" type="button">
+                <i class="fa fa-calendar fa-lg" style="cursor: pointer;"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+          <label for="inputLocation">Location</label>
+          <input type="text" class="form-control" [(ngModel)]="location" name="location" id="inputLocation" placeholder="Location">
+        </div>
+      <button type="submit" class="btn btn-primary">Book This</button>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-light" (click)="c('Close click')">Close</button>
+  </div>
+</ng-template>

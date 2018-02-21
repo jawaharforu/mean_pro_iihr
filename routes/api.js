@@ -90,7 +90,10 @@ router.post('/productdetail', (req, res, next) => {
         if(err){
             res.json({success: false, msg: 'Failed to add Product'});
         }else{
-            res.json({success: true, msg: 'Product Add', data: productdetail});
+            Productdetail.getAllProductdetails((err, productdetail) => {
+                if(err) throw err;
+                res.json({success: true, msg: 'Product detail Add successfully', data: productdetail});
+            }); 
         }
     }); 
 });
@@ -119,7 +122,10 @@ router.delete('/productdetail/:productdetailid', (req, res, next) => {
         if(err){
             res.json({success: false, msg: 'Failed to delete Product detail'});
         }else{
-            res.json({success: true, msg: 'Product detail deleted successfully'});
+            Productdetail.getAllProductdetails((err, productdetail) => {
+                if(err) throw err;
+                res.json({success: true, msg: 'Product detail deleted successfully', data: productdetail});
+            });        
         }
     });
 });
@@ -160,7 +166,10 @@ router.post('/booking', (req, res, next) => {
         if(err){
             res.json({success: false, msg: 'Failed to add Booking'});
         }else{
-            res.json({success: true, msg: 'Booking Add', data: booking});
+            Productdetail.getProductBoolingList((err, productdetail) => {
+                if(err) throw err;
+                res.json({success: true, msg: 'Booking Add', data: productdetail});
+            });
         }
     }); 
 });
@@ -200,4 +209,19 @@ router.put('/booking/:bookingid', (req, res, next) => {
     });
 });
 //<-- Booking part end --------------------------------------------------------->
+//<-- Product Book List start --------------------------------------------------------->
+router.get('/productbookinglist', (req, res, next) => {
+    Productdetail.getProductBoolingList((err, productdetail) => {
+        if(err) throw err;
+        res.json({success: true, data: productdetail});
+    });
+});
+
+router.get('/getlistforbook/:productdetailid', (req, res, next) => {
+    Productdetail.getProductdetailAndProductById(req.params.productdetailid, (err, productdetail) => {
+        if(err) throw err;
+        res.json({success: true, data: productdetail});
+    });
+});
+//<-- Product Book List end --------------------------------------------------------->
 module.exports = router;
