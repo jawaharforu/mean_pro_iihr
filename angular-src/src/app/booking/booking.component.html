@@ -7,20 +7,22 @@
             <th>Sl.No.</th>
             <th>Product</th>
             <th>Name/Make/Model</th>
-            <th>Status</th>
             <th>Remarks</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let productdetail of productbookinglist; let i = index">
+          <tr *ngFor="let productdetail of bookinglists; let i = index">
             <td>{{i+1}}</td>
             <td>{{productdetail.productname[0].name}}</td>
             <td>{{productdetail.name}}/{{productdetail.make}}/{{productdetail.model}}</td>
             <td>status</td>
             <td>{{productdetail.remark}}</td>
             <td>
-                <button (click)="open(productbook,productdetail._id)" class="btn btn-primary"><i class="fa fa-shopping-bag fa-lg"></i>&nbsp;BOOK</button>&nbsp;
+                <button *ngIf="!productdetail.booked" (click)="open(productbook,productdetail._id)" class="btn btn-primary"><i class="fa fa-shopping-bag fa-lg"></i>&nbsp;BOOK</button>&nbsp;
+                <span *ngIf="productdetail.booked"><p>Already Booked</p>
+                <p *ngFor="let b of productdetail.bookedlist; let last=last"><span *ngIf="last">Next avilable on {{b.todate | date}}</span></p>
+              </span>
             </td>
           </tr>
         </tbody>
@@ -38,12 +40,10 @@
     <form (submit)="bookTheItem();">
       <input type="hidden" [(ngModel)]="productdetailid" name="productdetailid" />
       <div class="form-group">
-        <label for="exampleFormControlTextarea1">Product</label>
-        <span>{{productname}}</span>
+        <label for="exampleFormControlTextarea1">{{productname}}</label>
       </div>
       <div class="form-group">
-        <label for="exampleFormControlTextarea1">Product Detail</label>
-        <span>{{productdetail}}</span>
+        <label for="exampleFormControlTextarea1">{{productdetail}}</label>
       </div>
       <div class="form-group">
         <label for="exampleFormControlTextarea1">From Date</label>

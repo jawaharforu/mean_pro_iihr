@@ -20,6 +20,8 @@ export class BookingComponent implements OnInit {
   todt: any;
   location: String;
   productdetailid: String;
+  productbookedlist: any;
+  bookinglists: any[] = [];
   constructor(
     private _flashMessagesService: FlashMessagesService,
     private productdetailService: ProductdetailService,
@@ -27,12 +29,27 @@ export class BookingComponent implements OnInit {
     private modalService: NgbModal,
     private activeModal: NgbActiveModal,
     private bookingService: BookingService
-  ) { }
-
-  ngOnInit() {
-    this.productdetailService.getProductBoolingList().subscribe(data => {
-      this.productbookinglist = data.data;
+  ) {
+    this.productdetailService.getProductBookedList().subscribe(data => {
+      this.productbookedlist = data.data;
     });
+  }
+
+  getItems() {
+    this.bookinglists = [];
+    this.productdetailService.getProductBookedList().subscribe(data => {
+      this.productbookedlist = data.data;
+      this.productdetailService.getProductBookingList().subscribe(data => {
+        this.productbookinglist = data.data;
+        for (const prop of this.productbookinglist) {
+          prop.booked = (this.productdetailService.checkingThePid(this.productbookedlist, prop._id));
+          this.bookinglists.push(prop);
+        }
+      });
+    });
+  }
+  ngOnInit() {
+    this.getItems();
   }
   open(content, productdetailid) {
     this.productdetailService.getProductdetailAndProductById(productdetailid).subscribe(data => {
@@ -43,28 +60,35 @@ export class BookingComponent implements OnInit {
     this.activeModal = this.modalService.open(content, { windowClass: 'dark-modal' });
   }
   bookTheItem() {
-    const fromdate = this.fromdt.day + '/' + this.fromdt.month + '/' + this.fromdt.year;
-    const todate = this.todt.day + '/' + this.todt.month + '/' + this.todt.year;
+    const fromdate = this.fromdt.month + '/' + this.fromdt.day + '/' + this.fromdt.year;
+    const todate = this.todt.month + '/' + this.todt.day + '/' + this.todt.year;
     const newBooking = {
       productdetailid: this.productdetailid,
       fromdate: fromdate,
       todate: todate,
       location: this.location,
-      status: false,
+      status: 'Pending',
       uid: 2
     };
+    console.log(newBooking);
     if (this.location === undefined || this.fromdt.day === undefined || this.todt.day === undefined) {
       this._flashMessagesService.show('Please fill all mandatory fields', { cssClass: 'alert-danger', timeout: 3000 });
       return false;
     }
     this.bookingService.addBooking(newBooking)
     .subscribe(data => {
-      this.productdetailid = '';
-      this.productname = '';
-      this.productdetail = '';
-      this.location = ''; this.fromdt = ''; this.todt = '';
-      this.productbookinglist = data.data;
-      this.activeModal.close();
+      if (data.success) {
+        this.productdetailid = '';
+        this.productname = '';
+        this.productdetail = '';
+        this.location = ''; this.fromdt = ''; this.todt = '';
+        this.productbookinglist = data.data;
+        this.activeModal.close();
+        this._flashMessagesService.show(data.msg, { cssClass: 'alert-success', timeout: 3000 });
+        this.getItems();
+      } else {
+        this._flashMessagesService.show(data.msg, { cssClass: 'alert-danger', timeout: 3000 });
+      }
     });
   }
 

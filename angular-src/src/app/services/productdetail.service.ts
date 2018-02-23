@@ -40,7 +40,7 @@ export class ProductdetailService {
     return this.http.get(this.link + 'api/productdetail/' + productdetailid, {headers: headers})
     .map(res => res.json());
   }
-  getProductBoolingList() {
+  getProductBookingList() {
     const headers = new Headers();
     headers.append('Content-type', 'application/json');
     return this.http.get(this.link + 'api/productbookinglist', {headers: headers})
@@ -51,5 +51,22 @@ export class ProductdetailService {
     headers.append('Content-type', 'application/json');
     return this.http.get(this.link + 'api/getlistforbook/' + productdetailid, {headers: headers})
     .map(res => res.json());
+  }
+  getProductBookedList() {
+    const headers = new Headers();
+    headers.append('Content-type', 'application/json');
+    return this.http.get(this.link + 'api/productbookedlist', {headers: headers})
+    .map(res => res.json());
+  }
+  checkingThePid(objects, toSearch) {
+    for (let i = 0; i < objects.length; i++) {
+      for (const key in objects[i]) {
+        if (objects[i][key].indexOf(toSearch) !== -1) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
   }
 }

@@ -21,14 +21,6 @@ export class ProductDetailListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.productdetailService.getProductBoolingList().subscribe(data => {
-      this.productbookinglist = data.data;
-    });
   }
-  open(content, productdetailid) {
-    this.activeModal = this.modalService.open(content, { windowClass: 'dark-modal', size: 'lg' });
-  }
-  bookTheItem() {
 
-  }
 }

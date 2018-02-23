@@ -18,7 +18,7 @@ const BookingSchema = mongoose.Schema({
         type: String
     },
     status: {
-        type: Boolean
+        type: String
     },
     uid: {
         type: Number

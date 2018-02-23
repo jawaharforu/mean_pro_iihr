@@ -16,4 +16,10 @@ export class BookingService {
     return this.http.post(this.link + 'api/booking', booking, {headers: headers})
     .map(res => res.json());
   }
+  getUserid() {
+    const headers = new Headers();
+    headers.append('Content-type', 'application/json');
+    return this.http.get('api/product/', {headers: headers})
+    .map(res => res.json());
+  }
 }

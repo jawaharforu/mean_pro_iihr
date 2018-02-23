@@ -166,7 +166,7 @@ router.post('/booking', (req, res, next) => {
         if(err){
             res.json({success: false, msg: 'Failed to add Booking'});
         }else{
-            Productdetail.getProductBoolingList((err, productdetail) => {
+            Productdetail.getProductBookingList((err, productdetail) => {
                 if(err) throw err;
                 res.json({success: true, msg: 'Booking Add', data: productdetail});
             });
@@ -211,7 +211,7 @@ router.put('/booking/:bookingid', (req, res, next) => {
 //<-- Booking part end --------------------------------------------------------->
 //<-- Product Book List start --------------------------------------------------------->
 router.get('/productbookinglist', (req, res, next) => {
-    Productdetail.getProductBoolingList((err, productdetail) => {
+    Productdetail.getProductBookingList((err, productdetail) => {
         if(err) throw err;
         res.json({success: true, data: productdetail});
     });
@@ -219,6 +219,20 @@ router.get('/productbookinglist', (req, res, next) => {
 
 router.get('/getlistforbook/:productdetailid', (req, res, next) => {
     Productdetail.getProductdetailAndProductById(req.params.productdetailid, (err, productdetail) => {
+        if(err) throw err;
+        res.json({success: true, data: productdetail});
+    });
+});
+
+router.get('/productbookedlist', (req, res, next) => {
+    Productdetail.getProductBookedList((err, productdetail) => {
+        if(err) throw err;
+        res.json({success: true, data: productdetail});
+    });
+});
+
+router.get('/productbookinglists', (req, res, next) => {
+    Productdetail.getProductBookingLists((err, productdetail) => {
         if(err) throw err;
         res.json({success: true, data: productdetail});
     });

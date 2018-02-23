@@ -107,7 +107,7 @@ module.exports.getAllProductdetails = function(callback){
         ],callback);
 };
 
-module.exports.getProductBoolingList = function(callback){
+module.exports.getProductBookingList = function(callback){
     Productdetail.aggregate([
         { $lookup:
             {
@@ -124,6 +124,52 @@ module.exports.getProductBoolingList = function(callback){
              foreignField: 'productdetailid', 
              as: 'bookedlist'
            }
-         }
+         },
+         { $match:
+            {
+                $and: [ 
+                    {'condition': {$in: ["working"]}}
+                ]
+            }
+         },
         ],callback);
 } ;
+
+module.exports.getProductBookedList = function(callback){
+    Productdetail.aggregate([
+        { $lookup:
+           {
+             from: 'bookings',
+             localField: '_id',
+             foreignField: 'productdetailid', 
+             as: 'bookedlist'
+           }
+         },
+         { $match:
+            {
+                $and: [ 
+                    {'bookedlist.status': {$in: ["Pending","Approved"]}}, 
+                    {'bookedlist.todate': {$gt : new Date()}}
+                ]
+            }
+         },
+         { $project: 
+            {
+                '_id': 1
+            }
+        }
+        ],callback);
+} ;
+
+module.exports.getProductBookingLists = function(callback) {
+    Productdetail.aggregate([
+         {
+            $project:
+              {
+                "has bananas" : {
+                    $in: [ "$_id", [mongoose.Types.ObjectId("5a8a99a20cfc3e11ecf1088f")] ]
+                  }
+              }
+         }
+        ],callback);
+}
