@@ -22,6 +22,8 @@ export class BookingComponent implements OnInit {
   productdetailid: String;
   productbookedlist: any;
   bookinglists: any[] = [];
+  userid: Number;
+  username: String;
   constructor(
     private _flashMessagesService: FlashMessagesService,
     private productdetailService: ProductdetailService,
@@ -39,17 +41,28 @@ export class BookingComponent implements OnInit {
     this.bookinglists = [];
     this.productdetailService.getProductBookedList().subscribe(data => {
       this.productbookedlist = data.data;
+      console.log(this.productbookedlist);
       this.productdetailService.getProductBookingList().subscribe(data => {
         this.productbookinglist = data.data;
         for (const prop of this.productbookinglist) {
           prop.booked = (this.productdetailService.checkingThePid(this.productbookedlist, prop._id));
           this.bookinglists.push(prop);
         }
+        console.log(this.bookinglists);
       });
     });
   }
   ngOnInit() {
     this.getItems();
+    this.bookingService.getUserid()
+    .subscribe(data => {
+      if (data.data.success) {
+        this.userid = data.data.uid;
+        this.username = data.data.name;
+      } else {
+        window.location.href = 'https://iihr.res.in/user';
+      }
+    });
   }
   open(content, productdetailid) {
     this.productdetailService.getProductdetailAndProductById(productdetailid).subscribe(data => {
@@ -68,7 +81,8 @@ export class BookingComponent implements OnInit {
       todate: todate,
       location: this.location,
       status: 'Pending',
-      uid: 2
+      uid: this.userid,
+      username: this.username
     };
     console.log(newBooking);
     if (this.location === undefined || this.fromdt.day === undefined || this.todt.day === undefined) {

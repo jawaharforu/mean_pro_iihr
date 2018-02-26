@@ -23,6 +23,9 @@ const BookingSchema = mongoose.Schema({
     uid: {
         type: Number
     },
+    username: {
+        type: String
+    },
     createdon: {
         type: Date,
         default: Date.now
@@ -45,11 +48,83 @@ module.exports.getBookingById = function(bookingid, callback){
 };
 
 module.exports.getBookingByStatus = function(status, callback){
+    /*
     const query = {
         status: status
     }
     Booking.find(query, callback);
+    */
+    Booking.aggregate([
+        { $match:
+            {
+                'status': status
+            }
+        },
+        { $lookup:
+           {
+             from: 'productdetails',
+             localField: 'productdetailid',
+             foreignField: '_id',
+             as: 'productdetail'
+           }
+         },
+         { $lookup :
+            {
+                from: 'products',
+                localField: 'productdetail.productid',
+                foreignField: '_id',
+                as : 'product'
+            }
+         }
+        ],callback);
 }; 
+
+module.exports.getBookingByUid = function(uid, callback){
+    Booking.aggregate([
+        { $match:
+            {
+                'uid': Number(uid)
+            }
+        },
+        { $lookup:
+           {
+             from: 'productdetails',
+             localField: 'productdetailid',
+             foreignField: '_id',
+             as: 'productdetail'
+           }
+         },
+         { $lookup :
+            {
+                from: 'products',
+                localField: 'productdetail.productid',
+                foreignField: '_id',
+                as : 'product'
+            }
+         }
+        ],callback);
+}; 
+
+module.exports.getAllBookedlist = function(callback){
+    Booking.aggregate([
+        { $lookup:
+           {
+             from: 'productdetails',
+             localField: 'productdetailid',
+             foreignField: '_id',
+             as: 'productdetail'
+           }
+         },
+         { $lookup :
+            {
+                from: 'products',
+                localField: 'productdetail.productid',
+                foreignField: '_id',
+                as : 'product'
+            }
+         }
+        ],callback);
+};
 
 module.exports.deleteBooking = function(bookingid, callback){
     Booking.remove({_id: bookingid}, callback);

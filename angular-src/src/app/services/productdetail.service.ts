@@ -7,6 +7,7 @@ export class ProductdetailService {
 
   link: String = 'http://localhost:3000/';
   product: any;
+  findstatus: Boolean;
   constructor(
     private http: Http
   ) { }
@@ -59,13 +60,24 @@ export class ProductdetailService {
     .map(res => res.json());
   }
   checkingThePid(objects, toSearch) {
+    /*
     for (let i = 0; i < objects.length; i++) {
       for (const key in objects[i]) {
         if (objects[i][key].indexOf(toSearch) !== -1) {
-          return true;
+          this.findstatus = true;
         } else {
-          return false;
+          this.findstatus = false;
         }
+      }
+    } */
+    for (let i = 0 ; i < objects.length ; i++) {
+      if (objects[i]['_id'] === toSearch) {
+        return true;
+      } else {
+        this.findstatus = false;
+      }
+      if (i === (objects.length - 1)) {
+        return this.findstatus;
       }
     }
   }

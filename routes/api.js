@@ -179,6 +179,16 @@ router.get('/bookings/:status', (req, res, next) => {
         res.json({success: true, data: booking});
     });
 });
+router.get('/bookeduid/:uid', (req, res, next) => {
+    Booking.getBookingByUid(req.params.uid, (err, booking) => {
+        res.json({success: true, data: booking});
+    });
+});
+router.get('/allbooked', (req, res, next) => {
+    Booking.getAllBookedlist((err, booking) => {
+        res.json({success: true, data: booking});
+    });
+});
 // Delete booking
 router.delete('/booking/:bookingid', (req, res, next) => {
     Booking.deleteBooking(req.params.bookingid, (err, result) => {
@@ -200,7 +210,19 @@ router.put('/booking/:bookingid', (req, res, next) => {
         uid: req.body.uid,
         updatedon: req.body.updatedon
     }; 
-    Booking.updateProductdetail(req.params.bookingid, updatedBooking, (err, result) => {
+    Booking.updateBooking(req.params.bookingid, updatedBooking, (err, result) => {
+        if(err){
+            res.json({success: false, msg: 'Failed to Update Booking'});
+        }else{
+            res.json({success: true, msg: 'Booking Updated successfully'});
+        }
+    });
+});
+router.put('/bookingstatus/:bookingid', (req, res, next) => {
+    let updatedBooking = {
+        status: req.body.status
+    }; 
+    Booking.updateBooking(req.params.bookingid, updatedBooking, (err, result) => {
         if(err){
             res.json({success: false, msg: 'Failed to Update Booking'});
         }else{

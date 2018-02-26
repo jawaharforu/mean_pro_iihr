@@ -1,47 +1,74 @@
-<h1>Dashboard</h1>
-      <section class="row text-center placeholders">
-        <div class="col-6 col-sm-3 placeholder">
-          <img src="data:image/gif;base64,R0lGODlhAQABAIABAAJ12AAAACwAAAAAAQABAAACAkQBADs=" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-          <h4>Label</h4>
-          <div class="text-muted">Something else</div>
+<ngb-tabset>
+  <ngb-tab title="Pending List">
+    <ng-template ngbTabContent>
+        <div class="row">
+          <div class="col-md-12">
+            <h3>Pending List</h3>
+          </div>
+          <div class="col-md-12">
+            <table class="table table-dark table-striped">
+              <thead>
+                <tr>
+                  <th>Sl.No.</th>
+                  <th>User</th>
+                  <th>Product</th>
+                  <th>Name/Make/Model</th>
+                  <th>From - To Date</th>
+                  <th>Location</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let p of pendinglist; let i = index;">
+                  <td>{{i+1}}</td>
+                  <td>{{p.username}}</td>
+                  <td>{{p.product[0].name}}</td>
+                  <td>{{p.productdetail[0].name}}-{{p.productdetail[0].make}}-{{p.productdetail[0].model}}</td>
+                  <td>{{p.fromdate | date}} - {{p.todate | date}}</td>
+                  <td>{{p.location}}</td>
+                  <td><button (click)="updateBooking(p._id,'Approved');" class="btn btn-success">Approve</button><button (click)="updateBooking(p._id,'Rejected');" class="btn btn-danger">Reject</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-        <div class="col-6 col-sm-3 placeholder">
-          <img src="data:image/gif;base64,R0lGODlhAQABAIABAADcgwAAACwAAAAAAQABAAACAkQBADs=" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-          <h4>Label</h4>
-          <span class="text-muted">Something else</span>
-        </div>
-        <div class="col-6 col-sm-3 placeholder">
-          <img src="data:image/gif;base64,R0lGODlhAQABAIABAAJ12AAAACwAAAAAAQABAAACAkQBADs=" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-          <h4>Label</h4>
-          <span class="text-muted">Something else</span>
-        </div>
-        <div class="col-6 col-sm-3 placeholder">
-          <img src="data:image/gif;base64,R0lGODlhAQABAIABAADcgwAAACwAAAAAAQABAAACAkQBADs=" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-          <h4>Label</h4>
-          <span class="text-muted">Something else</span>
-        </div>
-      </section>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab>
+    <ng-template ngbTabTitle>Full List</ng-template>
+    <ng-template ngbTabContent>
+        <div class="row">
+            <div class="col-md-12">
+              <h3>Pending List</h3>
+            </div>
+            <div class="col-md-12">
+              <table class="table table-dark table-striped">
+                <thead>
+                  <tr>
+                    <th>Sl.No.</th>
+                    <th>User</th>
+                    <th>Product</th>
+                    <th>Name/Make/Model</th>
+                    <th>From - To Date</th>
+                    <th>Location</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let p of getallbooked; let i = index;">
+                    <td>{{i+1}}</td>
+                    <td>{{p.username}}</td>
+                    <td>{{p.product[0].name}}</td>
+                    <td>{{p.productdetail[0].name}}-{{p.productdetail[0].make}}-{{p.productdetail[0].model}}</td>
+                    <td>{{p.fromdate | date}} - {{p.todate | date}}</td>
+                    <td>{{p.location}}</td>
+                    <td><span class="bg-info text-white"></span>{{p.status}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+    </ng-template>
+  </ngb-tab>
+</ngb-tabset>
 
-      <h2>Section title</h2>
-      <div class="table-responsive">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Header</th>
-              <th>Header</th>
-              <th>Header</th>
-              <th>Header</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1,001</td>
-              <td>Lorem</td>
-              <td>ipsum</td>
-              <td>dolor</td>
-              <td>sit</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>

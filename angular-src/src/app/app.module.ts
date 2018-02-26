@@ -24,6 +24,7 @@ import { ProductlistComponent } from './productlist/productlist.component';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProductDetailListComponent } from './product-detail-list/product-detail-list.component';
 import { BookingService } from './services/booking.service';
+import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { BookingService } from './services/booking.service';
     ProductnameComponent,
     ProductdetailComponent,
     ProductlistComponent,
-    ProductDetailListComponent
+    ProductDetailListComponent,
+    UserDashboardComponent
   ],
   imports: [
     BrowserModule,

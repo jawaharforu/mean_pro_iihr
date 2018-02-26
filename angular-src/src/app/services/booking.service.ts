@@ -19,7 +19,31 @@ export class BookingService {
   getUserid() {
     const headers = new Headers();
     headers.append('Content-type', 'application/json');
-    return this.http.get('api/product/', {headers: headers})
+    return this.http.get('https://iihr.res.in/getuser/', {headers: headers})
+    .map(res => res.json());
+  }
+  getPendingList() {
+    const headers = new Headers();
+    headers.append('Content-type', 'application/json');
+    return this.http.get(this.link + 'api/bookings/Pending', {headers: headers})
+    .map(res => res.json());
+  }
+  getAllbookedlist() {
+    const headers = new Headers();
+    headers.append('Content-type', 'application/json');
+    return this.http.get(this.link + 'api/allbooked', {headers: headers})
+    .map(res => res.json()); 
+  }
+  updateBooking(bookingid, booking) {
+    const headers = new Headers();
+    headers.append('Content-type', 'application/json');
+    return this.http.put(this.link + 'api/bookingstatus/' + bookingid, booking, {headers: headers})
+    .map(res => res.json());
+  }
+  getUserBookedList(uid: Number) {
+    const headers = new Headers();
+    headers.append('Content-type', 'application/json');
+    return this.http.get(this.link + 'api/bookeduid/' + uid, {headers: headers})
     .map(res => res.json());
   }
 }
